@@ -7,10 +7,10 @@
       "reminder": true
     },
     {
-      "text": "aaaaaa",
-      "day": "dazdz",
-      "reminder": true,
-      "id": "dm-isFK"
+      "text": "Family reunion",
+      "day": "September 11th",
+      "reminder": false,
+      "id": "LZiYDST"
     }
   ]
 }

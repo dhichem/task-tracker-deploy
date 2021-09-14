@@ -2,10 +2,10 @@ module.exports = {
     devServer: {
         proxy: {
             '^/api': {
-                target: 'http://localhost:5000',
+                target: 'https://backend-task-tracker0.herokuapp.com/',
                 changeOrigin: true,
                 logLevel: 'debug',
-                pathRewrite: { '^/api': '/' },
+                //  pathRewrite: { '^/api': '/' },
             },
         },
     },

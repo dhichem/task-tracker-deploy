@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     async addTask(task) {
-      const res = await fetch("api/tasks", {
+      const res = await fetch("api/taskAdd", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -36,38 +36,43 @@ export default {
       const data = await res.json();
       this.tasks = [...this.tasks, data];
     },
-    async deleteTask(id) {
+    async deleteTask(_id) {
       if (confirm("Are you sure?")) {
-        const res = await fetch(`api/tasks/${id}`, {
+        const res = await fetch(`api/taskDelete/${_id}`, {
           method: "DELETE",
         });
         res.status === 200
-          ? (this.tasks = this.tasks.filter((task) => task.id !== id))
+          ? (this.tasks = this.tasks.filter((task) => task._id !== _id))
           : alert("Error deleting task");
       }
     },
-    async toggleReminder(id) {
-      const taskToToggle = await this.fetchTask(id);
+    async toggleReminder(_id) {
+      const taskToToggle = await this.fetchTask(_id);
       const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
-      const res = await fetch(`api/tasks/${id}`, {
+      const res = await fetch(`api/taskUpdate/${_id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify(updTask),
       });
-      const data = await res.json();
-      this.tasks = this.tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
-      );
+      const resAll = await fetch("api/taskDisplay");
+      const data = await resAll.json();
+      this.tasks = data;
     },
     async fetchTasks() {
-      const res = await fetch("api/tasks");
+      const res = await fetch("api/taskDisplay");
       const data = await res.json();
       return data;
     },
-    async fetchTask(id) {
-      const res = await fetch(`api/tasks/${id}`);
+    async fetchTask(_id) {
+      const res = await fetch(`api/taskFind/${_id}`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
       const data = await res.json();
       return data;
     },
